@@ -1,37 +1,55 @@
 import { useState, createContext } from 'react'
 
-export const QuizContext = createContext<{
-    gameStarted: boolean;
-    setGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
-    chosenLevel: string;
-    setChosenLevel: React.Dispatch<React.SetStateAction<string> >;
+interface gameDataType {
+    gameStarted: boolean
+    startCounting: boolean;
+    finishedCounting: boolean;
+    level: string;
+    questionNumber: number;
+    correctAnswers: number;
+}
+interface quizContextType {
     countingStarted: boolean;
     setCountingStarted: React.Dispatch<React.SetStateAction<boolean>>;
-}>({
-    gameStarted: false,
-    setGameStarted: () => {},
-    chosenLevel: '',
-    setChosenLevel: () => {},
-    countingStarted: false,
-    setCountingStarted: () => {},
+    gameData: gameDataType;
+    setGameData: React.Dispatch<React.SetStateAction<gameDataType>>;
+}
 
+
+export const QuizContext = createContext<quizContextType>({
+    countingStarted: false,
+    setCountingStarted: () => { },
+    gameData: {
+        gameStarted: false,
+        startCounting: false,
+        finishedCounting: false,
+        level: '',
+        questionNumber: 0,
+        correctAnswers: 0,
+    },
+    setGameData: () => { },
 })
 
-export default function QuizContextProvider({children }: {children: React.ReactNode}) {
-      const [gameStarted, setGameStarted] = useState<boolean>(false)
-      const [chosenLevel, setChosenLevel] = useState<string>('')
-      const [countingStarted, setCountingStarted] = useState<boolean>(false)
+export default function QuizContextProvider({ children }: { children: React.ReactNode }) {
+    const [gameData, setGameData] = useState<gameDataType>({
+        gameStarted: false,
+        startCounting: false,
+        finishedCounting: false,
+        level: '',
+        questionNumber: 0,
+        correctAnswers: 0,
+    })
 
-      const contextValue = {
-        gameStarted,
-        setGameStarted,
-        chosenLevel,
-        setChosenLevel,
+    const [countingStarted, setCountingStarted] = useState<boolean>(false)
+
+    const contextValue = {
+        gameData,
         countingStarted,
-        setCountingStarted
-      }
+        setCountingStarted,
+        setGameData
+    }
 
-    return(
+    return (
         <QuizContext.Provider value={contextValue}>{children}</QuizContext.Provider>
     )
 }

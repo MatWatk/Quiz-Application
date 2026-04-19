@@ -6,11 +6,11 @@ import { QuizContext } from '../context/QuizContext'
 
 export default function CountingPage() {
     const [count, setCount] = useState<number>(3);
-    const { setCountingStarted } = useContext(QuizContext)
+    const { gameData, setGameData } = useContext(QuizContext)
 
     useEffect(() => {
         if (count === -1) {
-            setCountingStarted(false);
+            setGameData({ ...gameData, startCounting: false, finishedCounting: true });
             return;
         }
 

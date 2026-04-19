@@ -4,20 +4,20 @@ import styles from '../styles/styles'
 import Score from './Score'
 
 export default function StartModal() {
-    const { chosenLevel, setChosenLevel, setCountingStarted } = useContext(QuizContext)
+    const { gameData, setGameData } = useContext(QuizContext)
 
     const handleStartClick = () => {
-        setCountingStarted(true)
-        setChosenLevel('')
+        setGameData({ ...gameData, startCounting: true })
     }
+    
     return (
         <div className={styles.modalFrame}>
             <div className={styles.modalContent}>
-                <h1 className={`${styles.headerTitle}`}>{`${chosenLevel} level chosen`}</h1>
+                <h1 className={`${styles.headerTitle}`}>{`${gameData.level} level chosen`}</h1>
                 <Score />
                 <p className={styles.customText}>Get ready for the quiz! Click the button below to start.</p>
                 <button onClick={handleStartClick} className={styles.customButton}>Start Quiz!</button>
-                <button onClick={() => setChosenLevel('')} className={styles.closeButton}>Close</button>
+                <button onClick={() => setGameData({ ...gameData, level: '', gameStarted: false, startCounting: false })} className={styles.closeButton}>Close</button>
             </div>
         </div>
     )

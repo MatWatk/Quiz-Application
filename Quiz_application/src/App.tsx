@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { QuizContext } from './context/QuizContext'
 import './App.css'
 
@@ -6,20 +6,18 @@ import StartPage from './components/StartPage'
 import LevelSelection from './components/LevelSelection'
 import StartModal from './components/StartModal'
 import CountingPage from './components/CountingPage'
+import QuestionPage from './components/QuestionPage'
 
 function App() {
-  const { gameStarted, chosenLevel, countingStarted } = useContext(QuizContext)
-
-  useEffect(() => {
-    console.log('gameStarted zmienił się na:', gameStarted)
-  }, [gameStarted])
+  const { gameData } = useContext(QuizContext)
 
   return (
     <>
-      {!gameStarted && <StartPage />}
-      {gameStarted && <LevelSelection />}
-      {chosenLevel && <StartModal />}
-      {countingStarted && <CountingPage />}
+      {!gameData.gameStarted && <StartPage />}
+      {gameData.gameStarted && !gameData.finishedCounting && <LevelSelection />}
+      {gameData.level && !gameData.finishedCounting && <StartModal />}
+      {gameData.startCounting && <CountingPage />}
+      {gameData.finishedCounting && <QuestionPage />}
     </>
   )
 }

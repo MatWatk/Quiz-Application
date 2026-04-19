@@ -1,0 +1,160 @@
+{
+  "easy": [
+    {
+      "question": "Który kontynent jest największy pod względem powierzchni?",
+      "answers": ["Afryka", "Azja", "Europa", "Ameryka Południowa"],
+      "correct": "Azja"
+    },
+    {
+      "question": "Ile dni ma rok przestępny?",
+      "answers": ["364", "365", "366", "367"],
+      "correct": "366"
+    },
+    {
+      "question": "Jakie zwierzę jest największe na świecie?",
+      "answers": ["Słoń afrykański", "Płetwal błękitny", "Rekin biały", "Żyrafa"],
+      "correct": "Płetwal błękitny"
+    },
+    {
+      "question": "Który kolor powstaje z połączenia niebieskiego i żółtego?",
+      "answers": ["Zielony", "Fioletowy", "Pomarańczowy", "Brązowy"],
+      "correct": "Zielony"
+    },
+    {
+      "question": "Jak nazywa się stolica Francji?",
+      "answers": ["Berlin", "Madryt", "Paryż", "Rzym"],
+      "correct": "Paryż"
+    },
+    {
+      "question": "Ile jest stron w kwadracie?",
+      "answers": ["3", "4", "5", "6"],
+      "correct": "4"
+    },
+    {
+      "question": "Jak nazywa się największy ocean na Ziemi?",
+      "answers": ["Atlantycki", "Spokojny (Pacyfik)", "Indyjski", "Arktyczny"],
+      "correct": "Spokojny (Pacyfik)"
+    },
+    {
+      "question": "Co pszczoły produkują?",
+      "answers": ["Mleko", "Miód", "Olej", "Wosk drzewny"],
+      "correct": "Miód"
+    },
+    {
+      "question": "Jak nazywa się planeta najbliżej Słońca?",
+      "answers": ["Wenus", "Mars", "Merkury", "Ziemia"],
+      "correct": "Merkury"
+    },
+    {
+      "question": "Ile nóg ma pająk?",
+      "answers": ["6", "8", "10", "12"],
+      "correct": "8"
+    }
+  ],
+
+  "medium": [
+    {
+      "question": "Który pierwiastek chemiczny ma symbol 'Fe'?",
+      "answers": ["Fluor", "Fosfor", "Żelazo", "Ferm"],
+      "correct": "Żelazo"
+    },
+    {
+      "question": "W którym roku rozpoczęła się II wojna światowa?",
+      "answers": ["1937", "1938", "1939", "1940"],
+      "correct": "1939"
+    },
+    {
+      "question": "Które państwo ma największą populację na świecie?",
+      "answers": ["USA", "Indie", "Chiny", "Indonezja"],
+      "correct": "Indie"
+    },
+    {
+      "question": "Jak nazywa się najdłuższa rzeka w Afryce?",
+      "answers": ["Nil", "Kongo", "Niger", "Zambezi"],
+      "correct": "Nil"
+    },
+    {
+      "question": "Kto namalował 'Mona Lisę'?",
+      "answers": ["Leonardo da Vinci", "Pablo Picasso", "Vincent van Gogh", "Michelangelo"],
+      "correct": "Leonardo da Vinci"
+    },
+    {
+      "question": "Który gaz stanowi największą część atmosfery Ziemi?",
+      "answers": ["Tlen", "Dwutlenek węgla", "Azot", "Argon"],
+      "correct": "Azot"
+    },
+    {
+      "question": "Które miasto jest stolicą Australii?",
+      "answers": ["Sydney", "Melbourne", "Canberra", "Perth"],
+      "correct": "Canberra"
+    },
+    {
+      "question": "Jak nazywa się proces, w którym rośliny wytwarzają tlen?",
+      "answers": ["Oddychanie", "Fotosynteza", "Fermentacja", "Transpiracja"],
+      "correct": "Fotosynteza"
+    },
+    {
+      "question": "Który kraj wynalazł papier?",
+      "answers": ["Egipt", "Chiny", "Grecja", "Indie"],
+      "correct": "Chiny"
+    },
+    {
+      "question": "Jak nazywa się największa pustynia świata?",
+      "answers": ["Sahara", "Gobi", "Kalahari", "Atakama"],
+      "correct": "Sahara"
+    }
+  ],
+
+  "hard": [
+    {
+      "question": "Który pierwiastek ma najwyższą temperaturę topnienia?",
+      "answers": ["Wolfram", "Tytan", "Osm", "Ir"],
+      "correct": "Wolfram"
+    },
+    {
+      "question": "Który kraj jako pierwszy wprowadził demokrację?",
+      "answers": ["Rzym", "Sparta", "Ateny", "Kartagina"],
+      "correct": "Ateny"
+    },
+    {
+      "question": "Jak nazywa się największy księżyc Saturna?",
+      "answers": ["Europa", "Ganimedes", "Tytan", "Enceladus"],
+      "correct": "Tytan"
+    },
+    {
+      "question": "Który matematyk jest autorem twierdzenia o niezupełności?",
+      "answers": ["Gauss", "Gödel", "Cantor", "Hilbert"],
+      "correct": "Gödel"
+    },
+    {
+      "question": "Jak nazywa się najgłębszy punkt oceanów?",
+      "answers": ["Rów Tonga", "Rów Kurylsko-Kamczacki", "Rów Mariański", "Rów Filipiński"],
+      "correct": "Rów Mariański"
+    },
+    {
+      "question": "Który język ma najwięcej native speakerów?",
+      "answers": ["Angielski", "Hiszpański", "Mandaryński", "Hindi"],
+      "correct": "Mandaryński"
+    },
+    {
+      "question": "Który organ w ludzkim ciele produkuje insulinę?",
+      "answers": ["Wątroba", "Trzustka", "Śledziona", "Nerki"],
+      "correct": "Trzustka"
+    },
+    {
+      "question": "Kto jest autorem teorii ewolucji przez dobór naturalny?",
+      "answers": ["Gregor Mendel", "Charles Darwin", "Louis Pasteur", "Jean-Baptiste Lamarck"],
+      "correct": "Charles Darwin"
+    },
+    {
+      "question": "Który metal jest najlżejszy?",
+      "answers": ["Sód", "Lit", "Magnez", "Aluminium"],
+      "correct": "Lit"
+    },
+    {
+      "question": "Jak nazywa się proces powstawania gwiazd z obłoków gazu?",
+      "answers": ["Akrecja", "Fuzja", "Kolaps grawitacyjny", "Dyfuzja"],
+      "correct": "Kolaps grawitacyjny"
+    }
+  ]
+}
