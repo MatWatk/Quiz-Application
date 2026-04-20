@@ -1,7 +1,10 @@
-import { useContext } from 'react'
+import { useContext, useMemo, useState, useEffect } from 'react'
 import { QuizContext } from '../context/QuizContext'
 import questionsData from '../data/questions.json'
 import styles from '../styles/styles';
+
+import TimeProgressBar from './TimeProgressBar';
+import Footer from './Footer';
 
 interface Question {
     question: string;
@@ -9,21 +12,61 @@ interface Question {
     correct: string;
 }
 
-interface QuizData {
-    easy: Question[];
-    medium: Question[];
-    hard: Question[];
-}
-
 export default function QuestionPage() {
-    const { gameData } = useContext(QuizContext)
+    const { gameData, setGameData } = useContext(QuizContext)
+    const [isAnswerSelected, setIsAnswerSelected] = useState(false);
 
-    const questions : QuizData = questionsData;
+    const questions: Question[] = useMemo(() => {
+        if (!gameData.level) return [];
+
+        const arr = [...questionsData[gameData.level]];
+        for (let i=arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+
+        return arr;
+    }, [gameData.level]);
+
+    useEffect(() => {
+        if (gameData.questionNumber >= questions.length) {
+                setGameData(prevData => ({ ...prevData, gameFinished: true }))
+                console.log(gameData)
+            return;
+        }
+
+        return () => setIsAnswerSelected(false);
+
+    },[gameData.questionNumber, isAnswerSelected])
+
+    const handleAnswerClick = (answer: string) => {
+        setIsAnswerSelected(true);
+        setGameData(prevData=> ({...prevData, questionNumber: prevData.questionNumber + 1}))
+
+        if (answer === questions[gameData.questionNumber]?.correct) {
+            setGameData(prevData => ({ ...prevData, correctAnswers: prevData.correctAnswers + 1 }))
+        }
+    } 
 
     return (
 
         <div className={styles.background}>
             <h1 className={styles.headerTitle}>Question {gameData.questionNumber + 1}</h1>
-        </div>
+            <TimeProgressBar isAnswered={isAnswerSelected}/>
+            <div className='my-4'>
+            <p className={styles.customText}>{questions[gameData.questionNumber]?.question}</p>
+            <div className='items-center justify-center my-4'>
+                <div className='flex flex-row'>
+                    <button onClick={() => handleAnswerClick(questions[gameData.questionNumber]?.answers[0])} disabled={isAnswerSelected} className={styles.answerButton}>{questions[gameData.questionNumber]?.answers[0]}</button>
+                    <button onClick={() => handleAnswerClick(questions[gameData.questionNumber]?.answers[1])} disabled={isAnswerSelected} className={styles.answerButton}>{questions[gameData.questionNumber]?.answers[1]}</button>
+                </div>
+                <div className='flex flex-row'>
+                    <button onClick={() => handleAnswerClick(questions[gameData.questionNumber]?.answers[2])} disabled={isAnswerSelected} className={styles.answerButton}>{questions[gameData.questionNumber]?.answers[2]}</button>
+                    <button onClick={() => handleAnswerClick(questions[gameData.questionNumber]?.answers[3])} disabled={isAnswerSelected} className={styles.answerButton}>{questions[gameData.questionNumber]?.answers[3]}</button>
+                </div>
+            </div>
+            </div>
+            <Footer />
+        </div >
     )
 }

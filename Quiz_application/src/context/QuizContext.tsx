@@ -1,12 +1,15 @@
 import { useState, createContext } from 'react'
 
+type Level = 'Easy' | 'Medium' | 'Hard' | '';
+
 interface gameDataType {
     gameStarted: boolean
     startCounting: boolean;
     finishedCounting: boolean;
-    level: string;
+    level: Level;
     questionNumber: number;
     correctAnswers: number;
+    gameFinished: boolean;
 }
 interface quizContextType {
     countingStarted: boolean;
@@ -14,6 +17,7 @@ interface quizContextType {
     gameData: gameDataType;
     setGameData: React.Dispatch<React.SetStateAction<gameDataType>>;
 }
+
 
 
 export const QuizContext = createContext<quizContextType>({
@@ -26,6 +30,7 @@ export const QuizContext = createContext<quizContextType>({
         level: '',
         questionNumber: 0,
         correctAnswers: 0,
+        gameFinished: false,
     },
     setGameData: () => { },
 })
@@ -38,6 +43,7 @@ export default function QuizContextProvider({ children }: { children: React.Reac
         level: '',
         questionNumber: 0,
         correctAnswers: 0,
+        gameFinished: false,
     })
 
     const [countingStarted, setCountingStarted] = useState<boolean>(false)

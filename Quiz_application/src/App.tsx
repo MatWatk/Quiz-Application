@@ -17,7 +17,8 @@ function App() {
       {gameData.gameStarted && !gameData.finishedCounting && <LevelSelection />}
       {gameData.level && !gameData.finishedCounting && <StartModal />}
       {gameData.startCounting && <CountingPage />}
-      {gameData.finishedCounting && <QuestionPage />}
+      {gameData.finishedCounting && !gameData.gameFinished && <QuestionPage />}
+      {gameData.gameFinished && <h1 className='text-4xl font-bold text-center mt-10'>Game Finished! You got {gameData.correctAnswers} out of 10 correct!</h1>}
     </>
   )
 }

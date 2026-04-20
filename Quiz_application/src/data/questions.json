@@ -1,5 +1,5 @@
 {
-  "easy": [
+  "Easy": [
     {
       "question": "Który kontynent jest największy pod względem powierzchni?",
       "answers": ["Afryka", "Azja", "Europa", "Ameryka Południowa"],
@@ -52,7 +52,7 @@
     }
   ],
 
-  "medium": [
+  "Medium": [
     {
       "question": "Który pierwiastek chemiczny ma symbol 'Fe'?",
       "answers": ["Fluor", "Fosfor", "Żelazo", "Ferm"],
@@ -105,7 +105,7 @@
     }
   ],
 
-  "hard": [
+  "Hard": [
     {
       "question": "Który pierwiastek ma najwyższą temperaturę topnienia?",
       "answers": ["Wolfram", "Tytan", "Osm", "Ir"],
