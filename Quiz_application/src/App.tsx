@@ -7,6 +7,7 @@ import LevelSelection from './components/LevelSelection'
 import StartModal from './components/StartModal'
 import CountingPage from './components/CountingPage'
 import QuestionPage from './components/QuestionPage'
+import FinishModal from './components/FinishModal'
 
 function App() {
   const { gameData } = useContext(QuizContext)
@@ -18,7 +19,7 @@ function App() {
       {gameData.level && !gameData.finishedCounting && <StartModal />}
       {gameData.startCounting && <CountingPage />}
       {gameData.finishedCounting && !gameData.gameFinished && <QuestionPage />}
-      {gameData.gameFinished && <h1 className='text-4xl font-bold text-center mt-10'>Game Finished! You got {gameData.correctAnswers} out of 10 correct!</h1>}
+      {gameData.gameFinished && gameData.gameStarted && gameData.level && <FinishModal />}
     </>
   )
 }
