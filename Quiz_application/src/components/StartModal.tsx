@@ -5,19 +5,34 @@ import Score from './Score'
 import Modal from './Modal'
 
 export default function StartModal() {
-    const { gameData, setGameData } = useContext(QuizContext)
+    const { gameData, setGameData, highestScore } = useContext(QuizContext)
 
     const handleStartClick = () => {
         setGameData({ ...gameData, startCounting: true })
+    }
+
+    let buttonText = 'Start Quiz!';
+    let disabled = false;
+
+    if (gameData.level && gameData.level !== 'Easy') {
+        if (gameData.level === 'Medium') {
+            buttonText = highestScore['Easy'] > 6 ? 'Start Quiz!' : 'Level not available';
+            disabled = highestScore['Easy'] <= 6;
+        }
+        if (gameData.level === 'Hard') {
+            buttonText = highestScore['Medium'] > 6 ? 'Start Quiz!' : 'Level not available';
+            disabled = highestScore['Medium'] <= 6;
+        }
     }
 
     return (
         <Modal>
             <h1 className={`${styles.headerTitle}`}>{`${gameData.level} level chosen`}</h1>
             <Score />
-            <p className={styles.customText}>Get ready for the quiz! Click the button below to start.</p>
-            <button onClick={handleStartClick} className={styles.customButton}>Start Quiz!</button>
-            <button onClick={() => setGameData({ ...gameData, level: '', gameStarted: false, startCounting: false })} className={styles.closeButton}>Close</button>
+            {disabled && <p className={styles.customText}>Level not available. Get at least 7 points in the previous level to unlock this one.</p>}
+            {!disabled && <p className={styles.customText}>Get ready for the quiz! Click the button below to start.</p>}
+            <button onClick={handleStartClick} className={styles.customButton} disabled={disabled}>{buttonText}</button>
+            <button onClick={() => setGameData({ ...gameData, level: '', startCounting: false })} className={styles.closeButton}>Close</button>
         </Modal>
 
     )

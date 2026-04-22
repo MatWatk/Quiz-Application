@@ -15,20 +15,22 @@ interface gameDataType {
     bestScore: number;
 }
 interface quizContextType {
-    countingStarted: boolean;
-    setCountingStarted: React.Dispatch<React.SetStateAction<boolean>>;
     gameData: gameDataType;
     setGameData: React.Dispatch<React.SetStateAction<gameDataType>>;
     renderStars: (starsToDisplay: number) => JSX.Element[];
-    assignStars: (correctAnswers: number) => number;
+    highestScore: highestScoreType;
+    setHighestScore: React.Dispatch<React.SetStateAction<highestScoreType>>;
+}
 
+interface highestScoreType {
+    Easy: number;
+    Medium: number;
+    Hard: number;
 }
 
 
 
 export const QuizContext = createContext<quizContextType>({
-    countingStarted: false,
-    setCountingStarted: () => { },
     gameData: {
         gameStarted: false,
         startCounting: false,
@@ -41,7 +43,12 @@ export const QuizContext = createContext<quizContextType>({
     },
     setGameData: () => { },
     renderStars: () => [],
-    assignStars: () => 0
+    highestScore: {
+        Easy: 0,
+        Medium: 0,
+        Hard: 0,
+    },
+    setHighestScore: () => {},
 
 })
 
@@ -56,38 +63,26 @@ export default function QuizContextProvider({ children }: { children: React.Reac
         gameFinished: false,
         bestScore: 0,
     })
+    const [highestScore, setHighestScore] = useState<highestScoreType>({
+        Easy: 0,
+        Medium: 0,
+        Hard: 0,
+    })
 
-    const [countingStarted, setCountingStarted] = useState<boolean>(false)
-
-    const assignStars = (correctAnswers: number) => {
-        if (correctAnswers >= 9) {
-            return (3);
+    const renderStars = (correctAnswers: number) => {
+        let numberOfStars = 0;
+                if (correctAnswers >= 9) {
+            numberOfStars = 3;
         }
         else if (correctAnswers >= 6) {
-            return (2);
+            numberOfStars = 2;
         }
                 else if (correctAnswers >= 3) {
-            return (1);
+            numberOfStars = 1;
         }
         else {
-            return (0);
+            numberOfStars = 0;
         }
-    }
-
-    const renderStars = (numberOfStars: number) => {
-        // let numberOfStars = 0;
-        //         if (correctAnswers >= 9) {
-        //     numberOfStars = 3;
-        // }
-        // else if (correctAnswers >= 6) {
-        //     numberOfStars = 2;
-        // }
-        //         else if (correctAnswers >= 3) {
-        //     numberOfStars = 1;
-        // }
-        // else {
-        //     numberOfStars = 0;
-        // }
 
         const stars = [];
         for (let i = 0; i < numberOfStars; i++) {
@@ -98,13 +93,11 @@ export default function QuizContextProvider({ children }: { children: React.Reac
 
     const contextValue = {
         gameData,
-        countingStarted,
-        setCountingStarted,
         setGameData,
         renderStars,
-        assignStars,
+        highestScore,
+        setHighestScore
     }
-
 
     return (
         <QuizContext.Provider value={contextValue}>{children}</QuizContext.Provider>
