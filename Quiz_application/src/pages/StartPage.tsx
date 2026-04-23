@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { QuizContext } from '../context/QuizContext'
 import bulbImage from '../assets/bulb_image.png'
 import styles from '../styles/styles'
-import Footer from './Footer'
+import Footer from '../components/Footer'
 
 export default function StartPage() {
   const { gameData, setGameData } = useContext(QuizContext)

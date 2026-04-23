@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 
 import styles from "../styles/styles";
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 import { QuizContext } from '../context/QuizContext'
 
 export default function CountingPage() {

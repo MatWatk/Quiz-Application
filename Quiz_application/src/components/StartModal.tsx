@@ -16,11 +16,11 @@ export default function StartModal() {
 
     if (gameData.level && gameData.level !== 'Easy') {
         if (gameData.level === 'Medium') {
-            buttonText = highestScore['Easy'] > 6 ? 'Start Quiz!' : 'Level not available';
+            buttonText = highestScore['Easy'] > 6 ? 'Start Quiz!' : 'Blocked';
             disabled = highestScore['Easy'] <= 6;
         }
         if (gameData.level === 'Hard') {
-            buttonText = highestScore['Medium'] > 6 ? 'Start Quiz!' : 'Level not available';
+            buttonText = highestScore['Medium'] > 6 ? 'Start Quiz!' : 'Blocked';
             disabled = highestScore['Medium'] <= 6;
         }
     }
@@ -31,7 +31,7 @@ export default function StartModal() {
             <Score />
             {disabled && <p className={styles.customText}>Level not available. Get at least 7 points in the previous level to unlock this one.</p>}
             {!disabled && <p className={styles.customText}>Get ready for the quiz! Click the button below to start.</p>}
-            <button onClick={handleStartClick} className={styles.customButton} disabled={disabled}>{buttonText}</button>
+            <button onClick={handleStartClick} className={`${disabled ? styles.disabledButton : styles.customButton}`} disabled={disabled}>{buttonText}</button>
             <button onClick={() => setGameData({ ...gameData, level: '', startCounting: false })} className={styles.closeButton}>Close</button>
         </Modal>
 

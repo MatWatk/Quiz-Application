@@ -26,7 +26,7 @@ export default function TimeProgressBar({ isAnswered }: { isAnswered?: boolean }
     }, [timeForAnswer, gameData.gameFinished])
 
     return (
-        <div className='w-3/4 h-6 bg-linear-to-r from-gray-400 to-gray-600 border-2 border-black rounded-4xl items-center justify-left flex'>
+        <div className='w-3/4 h-4 bg-linear-to-r from-gray-400 to-gray-600 border-2 border-black rounded-4xl items-center justify-left flex'>
             <div className='h-full bg-linear-to-r from-green-600 via-yellow-500 to-red-700 rounded-4xl transition-all duration-300 bg-size-[800%]' style={{ width: `${timeForAnswer * (100 / timeLimit)}%`, backgroundPosition: `${timeForAnswer * (100 / timeLimit)}% 0%`, }}></div>
         </div>
     )

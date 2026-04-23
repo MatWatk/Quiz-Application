@@ -6,7 +6,7 @@ import { QuizContext } from "../context/QuizContext";
 
 
 export default function FinishModal() {
-    const { gameData, renderStars, setGameData, setHighestScore } = useContext(QuizContext)
+    const { gameData, renderStars, setGameData, setHighestScore, highestScore } = useContext(QuizContext)
     const [starsToDisplay, setStarsToDisplay] = useState(0);
 
     useEffect(() => {
@@ -26,8 +26,20 @@ export default function FinishModal() {
 
     const handleReturnClick = () => {
         setHighestScore(prev => ({...prev, [gameData.level]: gameData.correctAnswers}));
-        setGameData({ ...gameData, level: '', gameStarted: false, startCounting: false, finishedCounting: false, gameFinished: false, correctAnswers: 0, questionNumber: 0 })
+        setGameData({ ...gameData, level: '', gameStarted: true, startCounting: false, finishedCounting: false, gameFinished: false, correctAnswers: 0, questionNumber: 0 })
     }
+
+    const levelUnblocked = gameData.level === 'Easy' || (gameData.level === 'Medium' && gameData.correctAnswers > 6) || (gameData.level === 'Hard' && gameData.correctAnswers > 6);
+    const nextLevel = gameData.level === 'Easy' ? 'Medium' : gameData.level === 'Medium' ? 'Hard' : null;
+
+    const displayNewLevelButton = () => {
+        if (gameData.level !== '') {
+        return highestScore[gameData.level] > 7 && levelUnblocked;
+        }
+        return false;
+    }
+
+    const retryButtonText = gameData.correctAnswers > 6 ? `Try on ${nextLevel}` : 'Retry Level';
 
 
 
@@ -39,7 +51,8 @@ export default function FinishModal() {
                 {renderStars(gameData.correctAnswers).slice(0, starsToDisplay)}
             </div>
             <p className={styles.customText}>You got {gameData.correctAnswers} out of 10 correct!</p>
-            <button onClick={handleReturnClick} className={styles.closeButton}>Return</button>
+            {displayNewLevelButton() && <p className={styles.customText}>New level unblocked: {nextLevel}!</p>}
+            <button onClick={handleReturnClick} className={`${styles.customButton} shrink-0 mb-4`}>{retryButtonText}</button>
 
         </Modal>
     )

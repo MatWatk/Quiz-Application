@@ -2,11 +2,11 @@ import { useContext } from 'react'
 import { QuizContext } from './context/QuizContext'
 import './App.css'
 
-import StartPage from './components/StartPage'
+import StartPage from './pages/StartPage'
 import LevelSelection from './components/LevelSelection'
 import StartModal from './components/StartModal'
-import CountingPage from './components/CountingPage'
-import QuestionPage from './components/QuestionPage'
+import CountingPage from './pages/CountingPage'
+import QuestionPage from './pages/QuestionPage'
 import FinishModal from './components/FinishModal'
 
 function App() {
