@@ -34,7 +34,6 @@ export default function QuestionPage() {
     useEffect(() => {
         if (gameData.questionNumber >= questions.length) {
             setGameData(prevData => ({ ...prevData, gameFinished: true, bestScore: prevData.bestScore > prevData.correctAnswers ? prevData.bestScore : prevData.correctAnswers }))
-            console.log(gameData)
             return;
         }
 

@@ -34,7 +34,7 @@ export default function FinishModal() {
 
     const displayNewLevelButton = () => {
         if (gameData.level !== '') {
-        return highestScore[gameData.level] > 7 && levelUnblocked;
+        return highestScore[gameData.level] > 6 && levelUnblocked;
         }
         return false;
     }
