@@ -1,77 +1,62 @@
-# Quiz Application
+Quiz Application
 
-Aplikacja quizowa stworzona w **React + TypeScript** z użyciem **Vite**. Użytkownik wybiera poziom trudności, a następnie odpowiada na serię pytań jednokrotnego wyboru w ograniczonym czasie. Po zakończeniu quizu wyświetlany jest wynik oraz „gwiazdki” zależne od liczby poprawnych odpowiedzi.
+A quiz application built with React + TypeScript using Vite. The user selects a difficulty level and then answers a series of single-choice questions within a limited time. After completing the quiz, the result and a star rating based on the number of correct answers are displayed.
 
-## Funkcje
+Features
+Difficulty selection: Easy / Medium / Hard
+Randomized question order after selecting a level
+Single-choice questions (4 answers)
+Time limit per question with a progress bar
+Answer highlighting:
+correct → green
+incorrect → red
+Automatic transition to the next question after answering (after a short delay) or when time runs out
+Final screen with score and star rating
+Game state managed via React Context (QuizContext)
+Technologies
+React (React DOM)
+TypeScript
+Vite
+ESLint
+(Styling: utility classes – the project includes a tailwind.config.js configuration)
+Project Structure (overview)
+src/context/QuizContext.tsx – global game state (start, level, question number, correct answers, game end, etc.)
+src/data/questions.json – question database divided by difficulty levels
+src/pages/
+StartPage.tsx – start screen
+CountingPage.tsx – countdown before starting
+QuestionPage.tsx – question screen and quiz logic
+src/components/
+LevelSelection.tsx – difficulty selection
+StartModal.tsx – start modal after selecting a level
+FinishModal.tsx – final modal with results
+TimeProgressBar.tsx – time bar for answering
+Score.tsx, Footer.tsx, Modal.tsx – UI components
+Requirements
+Node.js (recommended current LTS version)
+npm (or another package manager if you adjust the commands)
+Installation and Running
 
-- Wybór poziomu trudności: **Easy / Medium / Hard**
-- Losowa kolejność pytań po wybraniu poziomu
-- Pytania jednokrotnego wyboru (4 odpowiedzi)
-- **Limit czasu na pytanie** z paskiem postępu
-- Podświetlanie odpowiedzi:
-  - poprawna → zielona
-  - błędna → czerwona
-- Automatyczne przejście do następnego pytania po odpowiedzi (po krótkiej chwili) lub po upływie czasu
-- Ekran końcowy z wynikiem i oceną w formie gwiazdek
-- Stan gry zarządzany przez **React Context** (`QuizContext`)
+Go to the application directory (the project is in the Quiz_application folder):
 
-## Technologie
-
-- React (React DOM)
-- TypeScript
-- Vite
-- ESLint
-- (Stylowanie: klasy utility – w projekcie jest konfiguracja `tailwind.config.js`)
-
-## Struktura projektu (skrót)
-
-- `src/context/QuizContext.tsx` – globalny stan gry (start, poziom, numer pytania, poprawne odpowiedzi, koniec gry itp.)
-- `src/data/questions.json` – baza pytań podzielona na poziomy
-- `src/pages/`
-  - `StartPage.tsx` – ekran startowy
-  - `CountingPage.tsx` – odliczanie przed startem
-  - `QuestionPage.tsx` – ekran pytań i logika quizu
-- `src/components/`
-  - `LevelSelection.tsx` ��� wybór poziomu
-  - `StartModal.tsx` – modal startowy po wyborze poziomu
-  - `FinishModal.tsx` – modal końcowy z wynikiem
-  - `TimeProgressBar.tsx` – pasek czasu na odpowiedź
-  - `Score.tsx`, `Footer.tsx`, `Modal.tsx` – elementy UI
-
-## Wymagania
-
-- Node.js (zalecane aktualne LTS)
-- npm (lub inny manager pakietów, jeśli dostosujesz komendy)
-
-## Instalacja i uruchomienie
-
-Przejdź do katalogu aplikacji (projekt jest w folderze `Quiz_application`):
-
-```bash
 cd Quiz_application
 npm install
 npm run dev
-```
 
-Aplikacja uruchomi się domyślnie pod adresem wyświetlonym w terminalu (zwykle `http://localhost:5173`).
+The application will run by default at the address shown in the terminal (usually http://localhost:5173).
 
-## Build produkcyjny
-
-```bash
+Production Build
 cd Quiz_application
 npm run build
 npm run preview
-```
+Question Data
 
-## Dane pytań
+Questions are located in the file:
 
-Pytania znajdują się w pliku:
+src/data/questions.json
 
-- `src/data/questions.json`
+Format (example):
 
-Format (przykład):
-
-```json
 {
   "Easy": [
     {
@@ -81,19 +66,13 @@ Format (przykład):
     }
   ]
 }
-```
+Scoring / Star System
 
-## Zasady punktacji / gwiazdki
+The application counts the number of correct answers (correctAnswers). Based on this, stars are awarded:
 
-Aplikacja liczy liczbę poprawnych odpowiedzi (`correctAnswers`). Na tej podstawie przyznawane są gwiazdki:
+3 stars: ≥ 9 correct answers
+2 stars: ≥ 6 correct answers
+1 star: ≥ 3 correct answers
+0 stars: fewer than 3
 
-- **3 gwiazdki**: ≥ 9 poprawnych
-- **2 gwiazdki**: ≥ 6 poprawnych
-- **1 gwiazdka**: ≥ 3 poprawnych
-- **0 gwiazdek**: poniżej 3
-
-(Logika w `QuizContext.tsx`.)
-
-## Licencja
-
-Brak zdefiniowanej licencji w repozytorium — jeśli chcesz, mogę przygotować propozycję (np. MIT) i sekcję „License”.
+(Logic implemented in QuizContext.tsx.)
