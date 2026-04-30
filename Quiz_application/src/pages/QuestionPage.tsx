@@ -1,38 +1,49 @@
-import { useContext, useMemo, useState, useEffect } from 'react'
+import { useContext, useMemo, useState, useEffect, useRef } from 'react'
 import { QuizContext } from '../context/QuizContext'
-import questionsData from '../data/questions.json'
 import styles from '../styles/styles';
 
 import TimeProgressBar from '../components/TimeProgressBar';
 import Footer from '../components/Footer';
 
-interface Question {
-    question: string;
-    answers: string[];
-    correct: string;
-}
+import { fetchQuestions } from '../api/apiClient';
+import { prepareQuestionsData } from '../utils/utils';
+
+import type { Question, rawQuestion } from '../types/types';
+
 
 export default function QuestionPage() {
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+    const [questionsFromAPI, setQuestionsFromAPI] = useState<rawQuestion[]>([]);
+
     const { gameData, setGameData } = useContext(QuizContext)
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
-    const questions: Question[] = useMemo(() => {
-        if (!gameData.level) return [];
+    const hasFetchedData = useRef<boolean>(false);
 
-        const arr = [...questionsData[gameData.level]];
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
 
-        return arr;
-    }, [gameData.level]);
-
-    const currentQuestion = questions[gameData.questionNumber];
-    const answers = currentQuestion?.answers ?? [];
 
     useEffect(() => {
-        if (gameData.questionNumber >= questions.length) {
+        if (hasFetchedData.current || !gameData.level) return;
+        hasFetchedData.current = true;
+        const loadQuestions = async () => {
+            try {
+                setLoading(true);
+                const questionsData = await fetchQuestions(gameData.level)
+                setQuestionsFromAPI(questionsData);
+                setLoading(false);
+            } catch (error: unknown) {
+                console.error('Error fetching questions:', error);
+                setError(error instanceof Error ? error.message : 'Failed to load questions');
+                setLoading(false);
+            }
+        }
+        loadQuestions();
+    }, [gameData.level])
+
+    useEffect(() => {
+        if (loading || !questionsFromAPI.length) return;
+        if (!loading && gameData.questionNumber >= questions.length) {
             setGameData(prevData => ({ ...prevData, gameFinished: true, bestScore: prevData.bestScore > prevData.correctAnswers ? prevData.bestScore : prevData.correctAnswers }))
             return;
         }
@@ -48,6 +59,16 @@ export default function QuestionPage() {
 
     }, [gameData.questionNumber, selectedAnswer])
 
+    const questions: Question[] = useMemo(() => {
+        if (!questionsFromAPI.length) return [];
+        const shuffledQuestions = prepareQuestionsData(questionsFromAPI);
+
+        return shuffledQuestions;
+    }, [questionsFromAPI]);
+
+    const currentQuestion = questions[gameData.questionNumber];
+    const answers = currentQuestion?.answers ?? [];
+
 
     const answerButtonColor = (answer: string) => {
         if (answer !== selectedAnswer) return 'bg-gray-300';
@@ -57,12 +78,29 @@ export default function QuestionPage() {
 
     const handleAnswerClick = (answer: string) => {
         setSelectedAnswer(answer);
-
-
         if (answer === currentQuestion?.correct) {
             setGameData(prevData => ({ ...prevData, correctAnswers: prevData.correctAnswers + 1 }))
         }
     }
+
+    if (loading || !questions.length) {
+        return (
+            <div className={styles.background}>
+                <p className={styles.headerTitle}>Loading...</p>
+                <Footer />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className={styles.background}>
+                <p className={styles.headerTitle}>Error: {error}</p>
+                <Footer />
+            </div>
+        );
+    }
+
 
     return (
 

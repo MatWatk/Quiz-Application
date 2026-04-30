@@ -2,8 +2,10 @@ import { useContext } from 'react';
 import { QuizContext } from '../context/QuizContext';
 import styles from '../styles/styles';
 
+import { renderStars } from '../utils/utils';
+
 export default function Score() {
-    const { gameData, renderStars, highestScore } = useContext(QuizContext)
+    const { gameData, highestScore } = useContext(QuizContext)
 
     const displayScore = gameData.level === '' ? 0 : highestScore[gameData.level];
     return (
