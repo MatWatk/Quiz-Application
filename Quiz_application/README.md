@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# Quiz Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A trivia quiz app built with **React**, **TypeScript**, and **Vite**. Players choose a difficulty level, answer 10 questions within a time limit, and can track their best score per difficulty.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 18 + TypeScript
+- Vite
+- Tailwind CSS
+- Context API (global game state)
+- Open Trivia DB API (`opentdb.com`)
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── api/
+│   └── apiClient.ts          # Fetches questions from Open Trivia DB API
+├── assets/                   # Static assets (images, icons)
+├── components/
+│   ├── FinishModal.tsx        # Modal shown when the game ends (score summary)
+│   ├── Footer.tsx             # App footer
+│   ├── LevelSelection.tsx     # Difficulty picker (Easy / Medium / Hard)
+│   ├── Modal.tsx              # Generic reusable modal wrapper
+│   ├── Score.tsx              # Displays current score during the game
+│   ├── StartModal.tsx         # Modal shown on the start screen
+│   └── TimeProgressBar.tsx    # Animated countdown progress bar
+├── context/
+│   ├── QuizContext.tsx        # Context definition + types (gameData, highestScore)
+│   └── QuizContextProvider.tsx# Provider that holds and manages game state
+├── data/
+│   └── questions.json         # Local fallback question bank (Easy / Medium / Hard)
+├── pages/
+│   ├── CountingPage.tsx       # Countdown screen before questions begin
+│   ├── QuestionPage.tsx       # Main quiz screen with question + answer choices
+│   └── StartPage.tsx          # Landing / start screen
+├── styles/
+│   └── styles.tsx             # Shared Tailwind class strings / style helpers
+├── types/
+│   └── types.ts               # Shared TypeScript interfaces (Question, rawQuestion)
+└── utils/
+    └── utils.tsx              # Utility / helper functions
+```
+
+## Question Data
+
+Questions are loaded from the **Open Trivia DB** REST API at game start:
+
+```
+GET https://opentdb.com/api.php?amount=10&category=17&difficulty=<level>
+```
+
+- **Category 17** — Science & Nature
+- **Difficulty** — `easy`, `medium`, or `hard` (mapped from the selected `Level`)
+- Returns 10 multiple-choice questions per round
+
+Raw API responses use the `rawQuestion` shape and are normalised into the internal `Question` format before use:
+
+```ts
+// Raw shape from API
+interface rawQuestion {
+  category: string;
+  type: string;
+  difficulty: string;
+  question: string;
+  correct_answer: string;
+  incorrect_answers: string[];
+}
+
+// Normalised shape used in the app
+interface Question {
+  question: string;
+  answers: string[];   // shuffled array of all 4 choices
+  correct: string;
+}
+```
+
+A local `src/data/questions.json` file is also included as a structured fallback/reference, keyed by difficulty level (`Easy`, `Medium`, `Hard`), each containing an array of `Question` objects.
