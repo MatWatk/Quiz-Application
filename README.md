@@ -20,7 +20,6 @@ A quiz application built with **React + TypeScript** using **Vite**. The user se
 - React (React DOM)
 - TypeScript
 - Vite
-- ESLint
 - (Styling: utility classes — the project includes `tailwind.config.js`)
 
 ## Project Structure (overview)
