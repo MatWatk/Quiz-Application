@@ -20,7 +20,7 @@ export default function TimeProgressBar({ isAnswered }: { isAnswered?: boolean }
     }, [gameData.gameFinished, isAnswered])
 
     useEffect(() => {
-        if (timeForAnswer < timeLimit && !gameData.gameFinished) return;
+        if (timeForAnswer < timeLimit || gameData.gameFinished) return;
         setGameData(prevData => ({ ...prevData, questionNumber: prevData.questionNumber + 1 }))
 
     }, [timeForAnswer, gameData.gameFinished])

@@ -18,7 +18,7 @@ export default function QuestionPage() {
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
 
-    const { loading, error, questionsFromAPI } = useFetchQuestions<Level>({ fetchFunction: fetchQuestions, gameLevel: gameData.level, initialData: [] });
+    const { loading, error, data: questionsFromAPI } = useFetchQuestions<Level>({ fetchFunction: fetchQuestions, gameLevel: gameData.level, initialData: [] });
 
     const questions: Question[] = useMemo(() => {
         if (!questionsFromAPI.length) return [];

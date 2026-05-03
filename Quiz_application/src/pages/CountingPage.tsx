@@ -10,7 +10,7 @@ export default function CountingPage() {
 
     useEffect(() => {
         if (count === -1) {
-            setGameData({ ...gameData, startCounting: false, finishedCounting: true });
+            setGameData(prevData => ({ ...prevData, startCounting: false, finishedCounting: true }));
             return;
         }
 
@@ -19,7 +19,7 @@ export default function CountingPage() {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [count]);
+    }, [count, setGameData]);
 
     return (
         <>

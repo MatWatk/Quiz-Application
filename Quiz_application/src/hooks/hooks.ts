@@ -1,10 +1,18 @@
 import { useState, useEffect, useRef } from 'react'
 import type { RawQuestion } from '../types/types';
 
-export function useFetchQuestions<T>({fetchFunction, gameLevel, initialData = []}: {fetchFunction: (args: T) => Promise<RawQuestion[]>, gameLevel: T, initialData?: RawQuestion[]}) {
+export function useFetchQuestions<T>({
+    fetchFunction,
+    gameLevel,
+    initialData = [],
+}: {
+    fetchFunction: (args: T) => Promise<RawQuestion[]>;
+    gameLevel: T;
+    initialData?: RawQuestion[];
+}) {
         const [loading, setLoading] = useState<boolean>(false);
         const [error, setError] = useState<string | null>(null);
-        const [questionsFromAPI, setQuestionsFromAPI] = useState<RawQuestion[]>(initialData);
+        const [data, setData] = useState<RawQuestion[]>(initialData);
         const hasFetchedData = useRef<boolean>(false);
 
         useEffect(() => {
@@ -13,16 +21,16 @@ export function useFetchQuestions<T>({fetchFunction, gameLevel, initialData = []
             const loadQuestions = async () => {
                 try {
                     setLoading(true);
-                    const questionsData = await fetchFunction(gameLevel)
-                    setQuestionsFromAPI(questionsData);
+                    const questionsData = await fetchFunction(gameLevel);
+                    setData(questionsData)
                     setLoading(false);
                 } catch (error: unknown) {
                     console.error('Error fetching questions:', error);
                     setError(error instanceof Error ? error.message : 'Failed to load questions');
                     setLoading(false);
                 }
-            }
+            };
             loadQuestions();
-        }, [gameLevel])
-        return { loading, error, questionsFromAPI };
+        }, [gameLevel]);
+        return { loading, error, data };
 }
