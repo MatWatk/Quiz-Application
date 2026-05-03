@@ -43,7 +43,7 @@ export default function QuestionPage() {
             return () => clearTimeout(timer);
         }
 
-    }, [gameData.questionNumber, selectedAnswer, questions, loading])
+    }, [gameData.questionNumber, selectedAnswer, questions, loading, setGameData, questionsFromAPI])
 
     const currentQuestion = questions[gameData.questionNumber];
     const answers = currentQuestion?.answers ?? [];

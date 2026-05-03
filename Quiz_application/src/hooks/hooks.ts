@@ -31,6 +31,6 @@ export function useFetchQuestions<T>({
                 }
             };
             loadQuestions();
-        }, [gameLevel]);
+        }, [gameLevel, fetchFunction]);
         return { loading, error, data };
 }

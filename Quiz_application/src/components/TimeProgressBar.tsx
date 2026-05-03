@@ -23,7 +23,7 @@ export default function TimeProgressBar({ isAnswered }: { isAnswered?: boolean }
         if (timeForAnswer < timeLimit || gameData.gameFinished) return;
         setGameData(prevData => ({ ...prevData, questionNumber: prevData.questionNumber + 1 }))
 
-    }, [timeForAnswer, gameData.gameFinished])
+    }, [timeForAnswer, gameData.gameFinished, isAnswered, setGameData])
 
     return (
         <div className='w-3/4 h-4 bg-linear-to-r from-gray-400 to-gray-600 border-2 border-black rounded-4xl items-center justify-left flex'>
