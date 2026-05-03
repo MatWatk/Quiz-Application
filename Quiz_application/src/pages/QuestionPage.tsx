@@ -78,7 +78,7 @@ export default function QuestionPage() {
 
         <div className={styles.background}>
             <h1 className={styles.headerTitle}>Question {gameData.questionNumber + 1}</h1>
-            <TimeProgressBar isAnswered={!!selectedAnswer} />
+            <TimeProgressBar key={gameData.questionNumber} isAnswered={!!selectedAnswer} />
             <div className='my-4'>
                 <p className={styles.customText}>{currentQuestion?.question}</p>
                 <div className='items-center justify-center my-4'>

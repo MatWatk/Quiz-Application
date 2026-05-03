@@ -8,10 +8,6 @@ export default function TimeProgressBar({ isAnswered }: { isAnswered?: boolean }
     const timeLimit = 150;
 
     useEffect(() => {
-        setTimeForAnswer(0);
-    }, [gameData.questionNumber])
-
-    useEffect(() => {
         if (gameData.gameFinished || isAnswered) return;
         const timer = setInterval(() => {
             setTimeForAnswer(prev => prev + 1)
