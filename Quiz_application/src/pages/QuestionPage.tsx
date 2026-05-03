@@ -6,7 +6,7 @@ import TimeProgressBar from '../components/TimeProgressBar';
 import Footer from '../components/Footer';
 
 import { fetchQuestions } from '../api/apiClient';
-import { prepareQuestionsData } from '../utils/utils';
+import { prepareQuestionsData, answerButtonColor } from '../utils/utils';
 
 import type { Level, Question } from '../types/types';
 
@@ -18,7 +18,14 @@ export default function QuestionPage() {
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
 
-const { loading, error, questionsFromAPI } = useFetchQuestions<Level>({fetchFunction: fetchQuestions, gameLevel: gameData.level, initialData: []});
+    const { loading, error, questionsFromAPI } = useFetchQuestions<Level>({ fetchFunction: fetchQuestions, gameLevel: gameData.level, initialData: [] });
+
+    const questions: Question[] = useMemo(() => {
+        if (!questionsFromAPI.length) return [];
+        const shuffledQuestions = prepareQuestionsData(questionsFromAPI);
+
+        return shuffledQuestions;
+    }, [questionsFromAPI]);
 
     useEffect(() => {
         if (loading || !questionsFromAPI.length) return;
@@ -36,24 +43,10 @@ const { loading, error, questionsFromAPI } = useFetchQuestions<Level>({fetchFunc
             return () => clearTimeout(timer);
         }
 
-    }, [gameData.questionNumber, selectedAnswer])
-
-    const questions: Question[] = useMemo(() => {
-        if (!questionsFromAPI.length) return [];
-        const shuffledQuestions = prepareQuestionsData(questionsFromAPI);
-
-        return shuffledQuestions;
-    }, [questionsFromAPI]);
+    }, [gameData.questionNumber, selectedAnswer, questions, loading])
 
     const currentQuestion = questions[gameData.questionNumber];
     const answers = currentQuestion?.answers ?? [];
-
-
-    const answerButtonColor = (answer: string) => {
-        if (answer !== selectedAnswer) return 'bg-gray-300';
-        if (answer === currentQuestion?.correct) return 'bg-green-500 disabled:hover:bg-green-500';
-        return 'bg-red-500 disabled:hover:bg-red-500';
-    }
 
     const handleAnswerClick = (answer: string) => {
         setSelectedAnswer(answer);
@@ -95,7 +88,7 @@ const { loading, error, questionsFromAPI } = useFetchQuestions<Level>({fetchFunc
                                 key={`${gameData.questionNumber}-${index}-${answer}`}
                                 onClick={() => handleAnswerClick(answer)}
                                 disabled={!!selectedAnswer}
-                                className={`${styles.answerButton} ${answerButtonColor(answer)}`}
+                                className={`${styles.answerButton} ${answerButtonColor(answer, selectedAnswer, currentQuestion)}`}
                             >
                                 {answer}
                             </button>

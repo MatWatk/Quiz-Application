@@ -60,3 +60,9 @@ export const checkUnblockedLevels = (highestScore: highestScoreType, selectedLev
     }
     return { buttonText, disabled };
 }
+
+export const answerButtonColor = (answer: string, selectedAnswer: string | null, currentQuestion: Question | undefined): string => {
+    if (answer !== selectedAnswer) return 'bg-gray-300';
+    if (answer === currentQuestion?.correct) return 'bg-green-500 disabled:hover:bg-green-500';
+    return 'bg-red-500 disabled:hover:bg-red-500';
+}
