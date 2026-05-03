@@ -1,4 +1,6 @@
-export interface rawQuestion {
+export type Level = 'Easy' | 'Medium' | 'Hard' | '';
+
+export interface RawQuestion {
     category: string;
     type: string;
     difficulty: string;

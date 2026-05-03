@@ -1,6 +1,5 @@
 import { createContext } from 'react'
-
-export type Level = 'Easy' | 'Medium' | 'Hard' | '';
+import type { Level } from '../types/types';
 
 
 export interface gameDataType {

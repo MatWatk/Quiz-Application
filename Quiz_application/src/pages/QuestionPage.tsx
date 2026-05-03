@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState, useEffect, useRef } from 'react'
+import { useContext, useMemo, useState, useEffect } from 'react'
 import { QuizContext } from '../context/QuizContext'
 import styles from '../styles/styles';
 
@@ -8,38 +8,17 @@ import Footer from '../components/Footer';
 import { fetchQuestions } from '../api/apiClient';
 import { prepareQuestionsData } from '../utils/utils';
 
-import type { Question, rawQuestion } from '../types/types';
+import type { Level, Question } from '../types/types';
+
+import { useFetchQuestions } from '../hooks/hooks';
 
 
 export default function QuestionPage() {
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-    const [questionsFromAPI, setQuestionsFromAPI] = useState<rawQuestion[]>([]);
-
     const { gameData, setGameData } = useContext(QuizContext)
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
-    const hasFetchedData = useRef<boolean>(false);
 
-
-
-    useEffect(() => {
-        if (hasFetchedData.current || !gameData.level) return;
-        hasFetchedData.current = true;
-        const loadQuestions = async () => {
-            try {
-                setLoading(true);
-                const questionsData = await fetchQuestions(gameData.level)
-                setQuestionsFromAPI(questionsData);
-                setLoading(false);
-            } catch (error: unknown) {
-                console.error('Error fetching questions:', error);
-                setError(error instanceof Error ? error.message : 'Failed to load questions');
-                setLoading(false);
-            }
-        }
-        loadQuestions();
-    }, [gameData.level])
+const { loading, error, questionsFromAPI } = useFetchQuestions<Level>({fetchFunction: fetchQuestions, gameLevel: gameData.level, initialData: []});
 
     useEffect(() => {
         if (loading || !questionsFromAPI.length) return;

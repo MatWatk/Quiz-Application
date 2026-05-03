@@ -2,9 +2,9 @@ import he from "he";
 
 import starImage from '../assets/star_icon.png';
 
-import type { rawQuestion, Question } from "../types/types";
+import type { RawQuestion, Question } from "../types/types";
 
-export function prepareQuestionsData(questionsData: rawQuestion[]): Question[] {
+export function prepareQuestionsData(questionsData: RawQuestion[]): Question[] {
     return questionsData.map((question) => {
         const allAnswers = [...question.incorrect_answers, question.correct_answer];
         for (let i = allAnswers.length - 1; i > 0; i--) {
