@@ -4,6 +4,8 @@ import styles from '../styles/styles'
 import Score from './Score'
 import Modal from './Modal'
 
+import { checkUnblockedLevels } from '../utils/utils';
+
 export default function StartModal() {
     const { gameData, setGameData, highestScore } = useContext(QuizContext)
 
@@ -11,19 +13,7 @@ export default function StartModal() {
         setGameData({ ...gameData, startCounting: true })
     }
 
-    let buttonText = 'Start Quiz!';
-    let disabled = false;
-
-    if (gameData.level && gameData.level !== 'Easy') {
-        if (gameData.level === 'Medium') {
-            buttonText = highestScore['Easy'] > 6 ? 'Start Quiz!' : 'Blocked';
-            disabled = highestScore['Easy'] <= 6;
-        }
-        if (gameData.level === 'Hard') {
-            buttonText = highestScore['Medium'] > 6 ? 'Start Quiz!' : 'Blocked';
-            disabled = highestScore['Medium'] <= 6;
-        }
-    }
+    const { buttonText, disabled } = checkUnblockedLevels(highestScore, gameData.level);
 
     return (
         <Modal>
