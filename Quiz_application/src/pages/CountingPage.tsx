@@ -6,7 +6,7 @@ import { QuizContext } from '../context/QuizContext'
 
 export default function CountingPage() {
     const [count, setCount] = useState<number>(3);
-    const { gameData, setGameData } = useContext(QuizContext)
+    const { setGameData } = useContext(QuizContext)
 
     useEffect(() => {
         if (count === -1) {
