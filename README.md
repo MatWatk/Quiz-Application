@@ -64,9 +64,7 @@ npm run preview
 
 ## Question Data
 
-Questions are stored in:
-
-- `src/data/questions.json`
+Questions are fetched from https://opentdb.com/
 
 Format example:
 
